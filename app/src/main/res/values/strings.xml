@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SimpleSoundQuickSettings</string>
+
+    <string name="sound">Sound</string>
+    <string name="silent">Silent</string>
+    <string name="vibration">Vibration</string>
+</resources>
