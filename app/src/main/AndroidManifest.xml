@@ -26,8 +26,8 @@
         <service
             android:name=".services.SoundTile"
             android:exported="true"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:icon="@drawable/baseline_notifications_active_24">
+            android:icon="@drawable/baseline_notifications_active_24"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
