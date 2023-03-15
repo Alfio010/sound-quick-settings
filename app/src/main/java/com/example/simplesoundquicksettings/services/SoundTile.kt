@@ -17,14 +17,36 @@ class SoundTile : TileService() {
 
         when (audioManager.ringerMode) {
             AudioManager.RINGER_MODE_NORMAL -> {
+                if (qsTile.label.trim() == getString(R.string.sound).trim()) {
+                    return
+                }
+            }
+
+            AudioManager.RINGER_MODE_VIBRATE -> {
+                if (qsTile.label.trim() == getString(R.string.vibration).trim()) {
+                    return
+                }
+            }
+
+            AudioManager.RINGER_MODE_SILENT -> {
+                if (qsTile.label.trim() == getString(R.string.silent).trim()) {
+                    return
+                }
+            }
+        }
+
+        when (audioManager.ringerMode) {
+            AudioManager.RINGER_MODE_NORMAL -> {
                 qsTile.icon =
                     Icon.createWithResource(this, R.drawable.baseline_notifications_active_24)
                 qsTile.label = getString(R.string.sound)
             }
+
             AudioManager.RINGER_MODE_VIBRATE -> {
                 qsTile.icon = Icon.createWithResource(this, R.drawable.baseline_vibration_24)
                 qsTile.label = getString(R.string.vibration)
             }
+
             AudioManager.RINGER_MODE_SILENT -> {
                 qsTile.icon =
                     Icon.createWithResource(this, R.drawable.baseline_notifications_off_24)
@@ -42,13 +64,18 @@ class SoundTile : TileService() {
         when (audioManager.ringerMode) {
             AudioManager.RINGER_MODE_NORMAL -> audioManager.ringerMode =
                 AudioManager.RINGER_MODE_VIBRATE
+
             AudioManager.RINGER_MODE_VIBRATE -> {
+                val notificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                val currentInterruptFilter = notificationManager.currentInterruptionFilter
+
                 audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
                 audioManager.ringerMode = AudioManager.RINGER_MODE_SILENT
-                val mNotificationManager =
-                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                mNotificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL)
+
+                notificationManager.setInterruptionFilter(currentInterruptFilter)
             }
+
             AudioManager.RINGER_MODE_SILENT -> audioManager.ringerMode =
                 AudioManager.RINGER_MODE_NORMAL
         }
@@ -68,7 +95,7 @@ class SoundTile : TileService() {
         this.registerReceiver(object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.action == AudioManager.RINGER_MODE_CHANGED_ACTION) {
-                    updateSoundTile() //todo save last state
+                    updateSoundTile()
                 }
             }
         }, IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION))
