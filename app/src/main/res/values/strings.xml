@@ -4,4 +4,10 @@
     <string name="sound">Sound</string>
     <string name="silent">Silent</string>
     <string name="vibration">Vibration</string>
+
+    <string name="completed">Now you can change the device`s audio from the Quick Settings Panel, just add this app`s Quick Setting.</string>
+
+    <string name="not_completed">The app needs permission to change the Do Not Disturb mode in order to work.</string>
+
+    <string name="toast_text">Grant the app permission to use it</string>
 </resources>

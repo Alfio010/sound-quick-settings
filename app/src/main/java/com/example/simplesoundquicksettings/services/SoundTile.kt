@@ -1,6 +1,5 @@
 package com.example.simplesoundquicksettings.services
 
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -10,47 +9,44 @@ import android.media.AudioManager
 import android.service.quicksettings.TileService
 import com.example.simplesoundquicksettings.R
 import com.example.simplesoundquicksettings.Utils
+import java.util.concurrent.atomic.AtomicBoolean
 
 class SoundTile : TileService() {
+    private var latestAudioStateUpdate: Int? = null
+    private var isBroadcastRegistered: AtomicBoolean = AtomicBoolean(false)
+
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == AudioManager.RINGER_MODE_CHANGED_ACTION) {
+                updateSoundTile()
+            }
+        }
+    }
+
     private fun updateSoundTile() {
         val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
 
-        when (audioManager.ringerMode) {
-            AudioManager.RINGER_MODE_NORMAL -> {
-                if (qsTile.label.trim() == getString(R.string.sound).trim()) {
-                    return
-                }
-            }
-
-            AudioManager.RINGER_MODE_VIBRATE -> {
-                if (qsTile.label.trim() == getString(R.string.vibration).trim()) {
-                    return
-                }
-            }
-
-            AudioManager.RINGER_MODE_SILENT -> {
-                if (qsTile.label.trim() == getString(R.string.silent).trim()) {
-                    return
-                }
-            }
+        if (latestAudioStateUpdate == audioManager.ringerMode) {
+            latestAudioStateUpdate = null
+            return
         }
 
         when (audioManager.ringerMode) {
             AudioManager.RINGER_MODE_NORMAL -> {
+                qsTile.label = getString(R.string.sound)
                 qsTile.icon =
                     Icon.createWithResource(this, R.drawable.baseline_notifications_active_24)
-                qsTile.label = getString(R.string.sound)
             }
 
             AudioManager.RINGER_MODE_VIBRATE -> {
-                qsTile.icon = Icon.createWithResource(this, R.drawable.baseline_vibration_24)
                 qsTile.label = getString(R.string.vibration)
+                qsTile.icon = Icon.createWithResource(this, R.drawable.baseline_vibration_24)
             }
 
             AudioManager.RINGER_MODE_SILENT -> {
+                qsTile.label = getString(R.string.silent)
                 qsTile.icon =
                     Icon.createWithResource(this, R.drawable.baseline_notifications_off_24)
-                qsTile.label = getString(R.string.silent)
             }
         }
         qsTile.updateTile()
@@ -59,45 +55,100 @@ class SoundTile : TileService() {
     override fun onClick() {
         super.onClick()
 
-        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+        val audio = getSystemService(AUDIO_SERVICE) as AudioManager
 
-        when (audioManager.ringerMode) {
-            AudioManager.RINGER_MODE_NORMAL -> audioManager.ringerMode =
-                AudioManager.RINGER_MODE_VIBRATE
+        audio.ringerMode = when (audio.ringerMode) {
+            AudioManager.RINGER_MODE_NORMAL -> AudioManager.RINGER_MODE_VIBRATE
 
             AudioManager.RINGER_MODE_VIBRATE -> {
-                val notificationManager =
-                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                val currentInterruptFilter = notificationManager.currentInterruptionFilter
-
-                audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
-                audioManager.ringerMode = AudioManager.RINGER_MODE_SILENT
-
-                notificationManager.setInterruptionFilter(currentInterruptFilter)
+                audio.ringerMode = AudioManager.RINGER_MODE_NORMAL
+                AudioManager.RINGER_MODE_SILENT
             }
 
-            AudioManager.RINGER_MODE_SILENT -> audioManager.ringerMode =
-                AudioManager.RINGER_MODE_NORMAL
+            AudioManager.RINGER_MODE_SILENT -> AudioManager.RINGER_MODE_NORMAL
+
+            else -> {
+                return
+            }
         }
+
+        latestAudioStateUpdate = audio.ringerMode
 
         updateSoundTile()
     }
 
     override fun onStartListening() {
         super.onStartListening()
+
         updateSoundTile()
+
+        if (isBroadcastRegistered.compareAndSet(false, true)) {
+            this.registerReceiver(
+                broadcastReceiver,
+                IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
+            )
+        }
+    }
+
+    override fun onStopListening() {
+        super.onStopListening()
+
+        try {
+            if (isBroadcastRegistered.compareAndSet(true, false)) {
+                this.unregisterReceiver(broadcastReceiver)
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
-        Utils.requestDoNotDisturbPermissionOrSetDoNotDisturbApi23AndUp(this)
 
-        this.registerReceiver(object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                if (intent.action == AudioManager.RINGER_MODE_CHANGED_ACTION) {
-                    updateSoundTile()
-                }
+        if (!Utils.isDoNotDisturbPermissionGranted(this)) {
+            Utils.requestDoNotDisturbPermission(this)
+        }
+
+        if (isBroadcastRegistered.compareAndSet(false, true)) {
+            this.registerReceiver(
+                broadcastReceiver,
+                IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
+            )
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        try {
+            if (isBroadcastRegistered.compareAndSet(true, false)) {
+                this.unregisterReceiver(broadcastReceiver)
             }
-        }, IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION))
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onTileAdded() {
+        super.onTileAdded()
+
+        if (isBroadcastRegistered.compareAndSet(false, true)) {
+            this.registerReceiver(
+                broadcastReceiver,
+                IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
+            )
+        }
+    }
+
+    override fun onTileRemoved() {
+        super.onTileRemoved()
+
+        try {
+            if (isBroadcastRegistered.compareAndSet(true, false)) {
+                this.unregisterReceiver(broadcastReceiver)
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 }

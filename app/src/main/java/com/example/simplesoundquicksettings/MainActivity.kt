@@ -1,14 +1,38 @@
 package com.example.simplesoundquicksettings
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.simplesoundquicksettings.Utils.requestDoNotDisturbPermissionOrSetDoNotDisturbApi23AndUp
+import com.example.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
+import com.example.simplesoundquicksettings.Utils.requestDoNotDisturbPermission
 
 class MainActivity : AppCompatActivity() {
+    override fun onStart() {
+        super.onStart()
+
+        val textView = findViewById<TextView>(R.id.tvDND)
+
+        textView.text = if (isDoNotDisturbPermissionGranted(this)) {
+            getString(R.string.completed)
+        } else {
+            getString(R.string.not_completed)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        requestDoNotDisturbPermissionOrSetDoNotDisturbApi23AndUp(applicationContext)
+        if (!isDoNotDisturbPermissionGranted(this)) {
+            requestDoNotDisturbPermission(applicationContext)
+        }
+
+        val textView = findViewById<TextView>(R.id.tvDND)
+
+        textView.text = if (isDoNotDisturbPermissionGranted(this)) {
+            getString(R.string.completed)
+        } else {
+            getString(R.string.not_completed)
+        }
     }
 }
