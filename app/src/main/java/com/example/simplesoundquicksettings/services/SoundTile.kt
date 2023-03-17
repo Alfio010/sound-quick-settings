@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class SoundTile : TileService() {
     private var latestAudioStateUpdate: Int? = null
-    private var isBroadcastRegistered: AtomicBoolean = AtomicBoolean(false)
+    private val isBroadcastRegistered: AtomicBoolean = AtomicBoolean(false)
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
