@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Icon
 import android.media.AudioManager
+import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import com.example.simplesoundquicksettings.R
 import com.example.simplesoundquicksettings.Utils
@@ -13,7 +14,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class SoundTile : TileService() {
     private var latestAudioStateUpdate: Int? = null
-    private val isBroadcastRegistered: AtomicBoolean = AtomicBoolean(false)
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -36,19 +36,23 @@ class SoundTile : TileService() {
                 qsTile.label = getString(R.string.sound)
                 qsTile.icon =
                     Icon.createWithResource(this, R.drawable.baseline_notifications_active_24)
+                qsTile.state = Tile.STATE_ACTIVE
             }
 
             AudioManager.RINGER_MODE_VIBRATE -> {
                 qsTile.label = getString(R.string.vibration)
                 qsTile.icon = Icon.createWithResource(this, R.drawable.baseline_vibration_24)
+                qsTile.state = Tile.STATE_INACTIVE
             }
 
             AudioManager.RINGER_MODE_SILENT -> {
                 qsTile.label = getString(R.string.silent)
                 qsTile.icon =
                     Icon.createWithResource(this, R.drawable.baseline_notifications_off_24)
+                qsTile.state = Tile.STATE_INACTIVE
             }
         }
+
         qsTile.updateTile()
     }
 
@@ -81,25 +85,6 @@ class SoundTile : TileService() {
         super.onStartListening()
 
         updateSoundTile()
-
-        if (isBroadcastRegistered.compareAndSet(false, true)) {
-            this.registerReceiver(
-                broadcastReceiver,
-                IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
-            )
-        }
-    }
-
-    override fun onStopListening() {
-        super.onStopListening()
-
-        try {
-            if (isBroadcastRegistered.compareAndSet(true, false)) {
-                this.unregisterReceiver(broadcastReceiver)
-            }
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
     }
 
     override fun onCreate() {
@@ -109,21 +94,17 @@ class SoundTile : TileService() {
             Utils.requestDoNotDisturbPermission(this)
         }
 
-        if (isBroadcastRegistered.compareAndSet(false, true)) {
-            this.registerReceiver(
-                broadcastReceiver,
-                IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
-            )
-        }
+        this.registerReceiver(
+            broadcastReceiver,
+            IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
+        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
         try {
-            if (isBroadcastRegistered.compareAndSet(true, false)) {
-                this.unregisterReceiver(broadcastReceiver)
-            }
+            this.unregisterReceiver(broadcastReceiver)
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
@@ -132,23 +113,13 @@ class SoundTile : TileService() {
     override fun onTileAdded() {
         super.onTileAdded()
 
-        if (isBroadcastRegistered.compareAndSet(false, true)) {
-            this.registerReceiver(
-                broadcastReceiver,
-                IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
-            )
-        }
+        updateSoundTile()
     }
 
     override fun onTileRemoved() {
         super.onTileRemoved()
 
-        try {
-            if (isBroadcastRegistered.compareAndSet(true, false)) {
-                this.unregisterReceiver(broadcastReceiver)
-            }
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
+        qsTile.state = Tile.STATE_UNAVAILABLE
+        qsTile.updateTile()
     }
 }
