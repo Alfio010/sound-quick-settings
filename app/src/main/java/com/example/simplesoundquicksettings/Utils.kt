@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
+import com.alftendev.simplesoundquicksettings.R
 
 object Utils {
     fun isDoNotDisturbPermissionGranted(applicationContext: Context): Boolean {

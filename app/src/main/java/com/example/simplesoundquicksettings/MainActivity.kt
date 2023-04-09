@@ -3,6 +3,7 @@ package com.example.simplesoundquicksettings
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.alftendev.simplesoundquicksettings.R
 import com.example.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
 import com.example.simplesoundquicksettings.Utils.requestDoNotDisturbPermission
 

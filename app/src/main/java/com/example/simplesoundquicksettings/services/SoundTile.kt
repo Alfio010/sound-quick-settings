@@ -8,9 +8,8 @@ import android.graphics.drawable.Icon
 import android.media.AudioManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import com.example.simplesoundquicksettings.R
+import com.alftendev.simplesoundquicksettings.R
 import com.example.simplesoundquicksettings.Utils
-import java.util.concurrent.atomic.AtomicBoolean
 
 class SoundTile : TileService() {
     private var latestAudioStateUpdate: Int? = null
