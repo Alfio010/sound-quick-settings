@@ -1,4 +1,4 @@
-package com.example.simplesoundquicksettings
+package com.alftendev.simplesoundquicksettings
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

@@ -1,4 +1,4 @@
-package com.example.simplesoundquicksettings
+package com.alftendev.simplesoundquicksettings
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

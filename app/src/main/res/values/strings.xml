@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SimpleSoundQuickSettings</string>
+    <string name="app_name" translatable="false">Simple Sound Tile</string>
 
     <string name="sound">Sound</string>
     <string name="silent">Silent</string>

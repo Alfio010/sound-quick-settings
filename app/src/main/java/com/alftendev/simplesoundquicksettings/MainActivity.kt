@@ -1,11 +1,10 @@
-package com.example.simplesoundquicksettings
+package com.alftendev.simplesoundquicksettings
 
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.alftendev.simplesoundquicksettings.R
-import com.example.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
-import com.example.simplesoundquicksettings.Utils.requestDoNotDisturbPermission
+import com.alftendev.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
+import com.alftendev.simplesoundquicksettings.Utils.requestDoNotDisturbPermission
 
 class MainActivity : AppCompatActivity() {
     private fun setTextView() {

@@ -1,4 +1,4 @@
-package com.example.simplesoundquicksettings.services
+package com.alftendev.simplesoundquicksettings.services
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,7 +9,7 @@ import android.media.AudioManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import com.alftendev.simplesoundquicksettings.R
-import com.example.simplesoundquicksettings.Utils
+import com.alftendev.simplesoundquicksettings.Utils
 
 class SoundTile : TileService() {
     private var latestAudioStateUpdate: Int? = null
