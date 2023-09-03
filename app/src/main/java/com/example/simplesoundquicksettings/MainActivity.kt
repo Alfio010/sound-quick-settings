@@ -8,9 +8,7 @@ import com.example.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGrante
 import com.example.simplesoundquicksettings.Utils.requestDoNotDisturbPermission
 
 class MainActivity : AppCompatActivity() {
-    override fun onStart() {
-        super.onStart()
-
+    private fun setTextView() {
         val textView = findViewById<TextView>(R.id.tvDND)
 
         textView.text = if (isDoNotDisturbPermissionGranted(this)) {
@@ -18,6 +16,18 @@ class MainActivity : AppCompatActivity() {
         } else {
             getString(R.string.not_completed)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setTextView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        setTextView()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +38,6 @@ class MainActivity : AppCompatActivity() {
             requestDoNotDisturbPermission(applicationContext)
         }
 
-        val textView = findViewById<TextView>(R.id.tvDND)
-
-        textView.text = if (isDoNotDisturbPermissionGranted(this)) {
-            getString(R.string.completed)
-        } else {
-            getString(R.string.not_completed)
-        }
+        setTextView()
     }
 }

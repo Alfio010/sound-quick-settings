@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:gravity="center|center_horizontal|center_vertical"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context="com.example.simplesoundquicksettings.MainActivity">
 
     <TextView
         android:id="@+id/tvDND"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/not_completed"
         android:textAlignment="center" />
 </LinearLayout>
