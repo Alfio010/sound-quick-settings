@@ -10,7 +10,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:directBootAware="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/baseline_notifications_active_24"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleSoundQuickSettings"
