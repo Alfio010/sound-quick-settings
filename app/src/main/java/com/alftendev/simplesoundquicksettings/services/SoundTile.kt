@@ -30,6 +30,10 @@ class SoundTile : TileService() {
             return
         }
 
+        if (qsTile == null) {
+            return
+        }
+
         when (audioManager.ringerMode) {
             AudioManager.RINGER_MODE_NORMAL -> {
                 qsTile.label = getString(R.string.sound)
@@ -117,6 +121,10 @@ class SoundTile : TileService() {
 
     override fun onTileRemoved() {
         super.onTileRemoved()
+
+        if (qsTile == null) {
+            return
+        }
 
         qsTile.state = Tile.STATE_UNAVAILABLE
         qsTile.updateTile()
