@@ -25,6 +25,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.alftendev.simplesoundquicksettings.WebViewActivity"
+            android:exported="false">
+        </activity>
+
         <service
             android:name="com.alftendev.simplesoundquicksettings.services.SoundTile"
             android:exported="true"

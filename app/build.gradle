@@ -3,6 +3,17 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply plugin: "com.jaredsburrows.license"
+
+licenseReport {
+    generateCsvReport = false
+    generateHtmlReport = true
+    generateJsonReport = false
+
+    copyHtmlReportToAssets = true
+    copyJsonReportToAssets = false
+}
+
 android {
     namespace 'com.alftendev.simplesoundquicksettings'
     compileSdk 36
@@ -38,7 +49,10 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.17.0'
     implementation 'com.google.android.material:material:1.13.0'
 
+    // .\gradlew licenseReleaseReport
+    implementation 'com.jaredsburrows:gradle-license-plugin:0.9.8'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
 }

@@ -21,6 +21,7 @@
         android:id="@+id/ivSoundMode"
         android:layout_width="512px"
         android:layout_height="512px"
+        android:layout_margin="5px"
         android:background="@color/white"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.App.CircleImageView"
         app:srcCompat="@drawable/baseline_notifications_active_24" />
