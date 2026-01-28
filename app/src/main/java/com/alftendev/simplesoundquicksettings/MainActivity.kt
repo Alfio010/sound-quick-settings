@@ -2,6 +2,8 @@ package com.alftendev.simplesoundquicksettings
 
 import android.media.AudioManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.alftendev.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
@@ -9,6 +11,8 @@ import com.alftendev.simplesoundquicksettings.Utils.requestDoNotDisturbPermissio
 import com.google.android.material.imageview.ShapeableImageView
 
 class MainActivity : AppCompatActivity() {
+    private val SETTINGS_MENU_ID = 1
+
     private fun setTextView() {
         val textView = findViewById<TextView>(R.id.tvDND)
         val imageView = findViewById<ShapeableImageView>(R.id.ivSoundMode)
@@ -69,13 +73,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         setTextView()
     }
 
     override fun onStart() {
         super.onStart()
-
         setTextView()
     }
 
@@ -88,5 +90,30 @@ class MainActivity : AppCompatActivity() {
         }
 
         setTextView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val settingsItem: MenuItem? = menu?.add(
+            Menu.NONE,
+            SETTINGS_MENU_ID,
+            Menu.NONE,
+            getString(R.string.settings)
+        )
+
+        settingsItem?.setIcon(R.drawable.baseline_settings_24)
+
+        settingsItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            SETTINGS_MENU_ID -> {
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

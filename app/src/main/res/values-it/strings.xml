@@ -6,4 +6,5 @@
     <string name="completed">Ora è possibile modificare l\'audio del dispositivo dal pannello delle impostazioni rapide, basta aggiungere l\'impostazione rapida di questa app.</string>
     <string name="not_completed">Per poter funzionare, l\'app ha bisogno dell\'autorizzazione a modificare la modalità Non disturbare.</string>
     <string name="toast_text">Concedere all\'app il permesso di utilizzarla</string>
+    <string name="settings">Impostazioni</string>
 </resources>

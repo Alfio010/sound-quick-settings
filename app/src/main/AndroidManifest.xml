@@ -27,8 +27,7 @@
 
         <activity
             android:name="com.alftendev.simplesoundquicksettings.WebViewActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
 
         <service
             android:name="com.alftendev.simplesoundquicksettings.services.SoundTile"
