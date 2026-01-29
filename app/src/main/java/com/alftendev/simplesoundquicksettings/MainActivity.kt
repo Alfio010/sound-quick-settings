@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.alftendev.simplesoundquicksettings.ImageUtils.getDndStateDrawable
 import com.alftendev.simplesoundquicksettings.ImageUtils.getSoundStateDrawable
 import com.alftendev.simplesoundquicksettings.Utils.isDndActive
 import com.alftendev.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
@@ -15,7 +16,9 @@ import com.alftendev.simplesoundquicksettings.Utils.toggleDoNotDisturb
 import com.google.android.material.imageview.ShapeableImageView
 
 class MainActivity : AppCompatActivity() {
-    private val SETTINGS_MENU_ID = 1
+    companion object {
+        private const val SETTINGS_MENU_ID = 1
+    }
 
     private fun setTextView() {
         val textView = findViewById<TextView>(R.id.tvDND)
@@ -32,41 +35,25 @@ class MainActivity : AppCompatActivity() {
 
         ivSoundMode.setImageResource(getSoundStateDrawable(audio.ringerMode))
 
-        ivDnd.setImageResource(
-            if (isDndActive(this)) {
-                R.drawable.outline_do_not_disturb_on_24
-            } else {
-                R.drawable.outline_do_not_disturb_off_24
-            }
-        )
+        ivDnd.setImageResource(getDndStateDrawable(isDndActive(this)))
 
         ivDnd.setOnClickListener {
             val result = toggleDoNotDisturb(this)
-
-            ivDnd.setImageResource(
-                if (result) {
-                    R.drawable.outline_do_not_disturb_on_24
-                } else {
-                    R.drawable.outline_do_not_disturb_off_24
-                }
-            )
+            ivDnd.setImageResource(getDndStateDrawable(result))
         }
 
         ivSoundMode.setOnClickListener {
             audio.ringerMode = when (audio.ringerMode) {
                 AudioManager.RINGER_MODE_NORMAL -> {
-                    ivSoundMode.setImageResource(getSoundStateDrawable(AudioManager.RINGER_MODE_VIBRATE))
                     AudioManager.RINGER_MODE_VIBRATE
                 }
 
                 AudioManager.RINGER_MODE_VIBRATE -> {
                     audio.ringerMode = AudioManager.RINGER_MODE_NORMAL
-                    ivSoundMode.setImageResource(getSoundStateDrawable(AudioManager.RINGER_MODE_SILENT))
                     AudioManager.RINGER_MODE_SILENT
                 }
 
                 AudioManager.RINGER_MODE_SILENT -> {
-                    ivSoundMode.setImageResource(getSoundStateDrawable(AudioManager.RINGER_MODE_NORMAL))
                     AudioManager.RINGER_MODE_NORMAL
                 }
 
@@ -74,6 +61,8 @@ class MainActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
             }
+
+            ivSoundMode.setImageResource(getSoundStateDrawable(audio.ringerMode))
         }
     }
 
