@@ -7,12 +7,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.alftendev.simplesoundquicksettings.ImageUtils.getDndStateDrawable
-import com.alftendev.simplesoundquicksettings.ImageUtils.getSoundStateDrawable
-import com.alftendev.simplesoundquicksettings.Utils.isDndActive
-import com.alftendev.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
-import com.alftendev.simplesoundquicksettings.Utils.requestDoNotDisturbPermission
-import com.alftendev.simplesoundquicksettings.Utils.toggleDoNotDisturb
+import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getDndStateDrawable
+import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getSoundStateDrawable
+import com.alftendev.simplesoundquicksettings.utils.Utils.isDndActive
+import com.alftendev.simplesoundquicksettings.utils.Utils.isDoNotDisturbPermissionGranted
+import com.alftendev.simplesoundquicksettings.utils.Utils.requestDoNotDisturbPermission
+import com.alftendev.simplesoundquicksettings.utils.Utils.toggleDoNotDisturb
 import com.google.android.material.imageview.ShapeableImageView
 
 class MainActivity : AppCompatActivity() {

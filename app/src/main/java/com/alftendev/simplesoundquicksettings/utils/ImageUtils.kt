@@ -1,6 +1,7 @@
-package com.alftendev.simplesoundquicksettings
+package com.alftendev.simplesoundquicksettings.utils
 
 import android.media.AudioManager
+import com.alftendev.simplesoundquicksettings.R
 
 object ImageUtils {
     fun getSoundStateDrawable(ringerMode: Int): Int {

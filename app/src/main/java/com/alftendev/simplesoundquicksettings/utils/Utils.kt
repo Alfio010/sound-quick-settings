@@ -1,4 +1,4 @@
-package com.alftendev.simplesoundquicksettings
+package com.alftendev.simplesoundquicksettings.utils
 
 import android.app.NotificationManager
 import android.content.Context
@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.alftendev.simplesoundquicksettings.R
 
 object Utils {
     fun isDoNotDisturbPermissionGranted(applicationContext: Context): Boolean {
