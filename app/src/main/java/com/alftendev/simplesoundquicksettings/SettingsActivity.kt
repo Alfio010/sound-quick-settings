@@ -50,6 +50,19 @@ class SettingsActivity : AppCompatActivity() {
         }
         rootLayout.addView(otherActivityOption)
 
+        rootLayout.addView(createSeparator())
+
+        val iconLicenseActivityOption = createSettingsItem("Icon licenses") {
+
+            startActivity(
+                Intent(
+                    this,
+                    WebViewActivity()::class.java
+                ).setAction(Intent.ACTION_MAIN)
+                    .putExtra("filePath", "file:///android_asset/material_icon_license.html")
+            )
+        }
+        rootLayout.addView(iconLicenseActivityOption)
 
         setContentView(rootLayout)
     }
