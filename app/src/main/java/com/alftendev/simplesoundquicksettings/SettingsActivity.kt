@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.alftendev.simplesoundquicksettings.utils.Utils
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -29,9 +28,12 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val licenseOption = createSettingsItem("App license") {
-            Utils.openLink(
-                this,
-                "https://www.gnu.org/licenses/gpl-3.0.html"
+            startActivity(
+                Intent(
+                    this,
+                    WebViewActivity()::class.java
+                ).setAction(Intent.ACTION_MAIN)
+                    .putExtra("filePath", "file:///android_asset/gnu_license.html")
             )
         }
         rootLayout.addView(licenseOption)
