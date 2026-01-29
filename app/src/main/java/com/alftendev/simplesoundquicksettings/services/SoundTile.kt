@@ -8,6 +8,7 @@ import android.graphics.drawable.Icon
 import android.media.AudioManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import com.alftendev.simplesoundquicksettings.ImageUtils.getSoundStateDrawable
 import com.alftendev.simplesoundquicksettings.R
 import com.alftendev.simplesoundquicksettings.Utils
 
@@ -34,24 +35,22 @@ class SoundTile : TileService() {
             return
         }
 
+        qsTile.icon =
+            Icon.createWithResource(this, getSoundStateDrawable(audioManager.ringerMode))
+
         when (audioManager.ringerMode) {
             AudioManager.RINGER_MODE_NORMAL -> {
                 qsTile.label = getString(R.string.sound)
-                qsTile.icon =
-                    Icon.createWithResource(this, R.drawable.baseline_notifications_active_24)
                 qsTile.state = Tile.STATE_ACTIVE
             }
 
             AudioManager.RINGER_MODE_VIBRATE -> {
                 qsTile.label = getString(R.string.vibration)
-                qsTile.icon = Icon.createWithResource(this, R.drawable.baseline_vibration_24)
                 qsTile.state = Tile.STATE_INACTIVE
             }
 
             AudioManager.RINGER_MODE_SILENT -> {
                 qsTile.label = getString(R.string.silent)
-                qsTile.icon =
-                    Icon.createWithResource(this, R.drawable.baseline_notifications_off_24)
                 qsTile.state = Tile.STATE_INACTIVE
             }
         }
