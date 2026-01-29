@@ -29,6 +29,10 @@
             android:name="com.alftendev.simplesoundquicksettings.WebViewActivity"
             android:exported="false" />
 
+        <activity
+            android:name="com.alftendev.simplesoundquicksettings.SettingsActivity"
+            android:exported="false" />
+
         <service
             android:name="com.alftendev.simplesoundquicksettings.services.SoundTile"
             android:exported="true"

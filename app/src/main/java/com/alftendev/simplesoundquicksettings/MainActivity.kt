@@ -1,5 +1,6 @@
 package com.alftendev.simplesoundquicksettings
 
+import android.content.Intent
 import android.media.AudioManager
 import android.os.Bundle
 import android.view.Menu
@@ -110,6 +111,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             SETTINGS_MENU_ID -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
                 true
             }
 

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
+import androidx.core.net.toUri
 
 object Utils {
     fun isDoNotDisturbPermissionGranted(applicationContext: Context): Boolean {
@@ -21,5 +22,9 @@ object Utils {
         val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         applicationContext.startActivity(intent)
+    }
+
+    fun openLink(context: Context, uri: String) {
+        context.startActivity(Intent(Intent.ACTION_VIEW, uri.toUri()))
     }
 }
