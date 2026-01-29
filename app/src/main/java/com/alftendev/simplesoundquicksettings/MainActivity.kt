@@ -7,8 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.alftendev.simplesoundquicksettings.Utils.isDndActive
 import com.alftendev.simplesoundquicksettings.Utils.isDoNotDisturbPermissionGranted
 import com.alftendev.simplesoundquicksettings.Utils.requestDoNotDisturbPermission
+import com.alftendev.simplesoundquicksettings.Utils.toggleDoNotDisturb
 import com.google.android.material.imageview.ShapeableImageView
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setTextView() {
         val textView = findViewById<TextView>(R.id.tvDND)
-        val imageView = findViewById<ShapeableImageView>(R.id.ivSoundMode)
+        val ivSoundMode = findViewById<ShapeableImageView>(R.id.ivSoundMode)
+        val ivDnd = findViewById<ShapeableImageView>(R.id.ivDoNotDisturb)
 
         textView.text = if (isDoNotDisturbPermissionGranted(this)) {
             getString(R.string.completed)
@@ -26,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         val audio = getSystemService(AUDIO_SERVICE) as AudioManager
 
-        imageView.setImageResource(
+        ivSoundMode.setImageResource(
             when (audio.ringerMode) {
                 AudioManager.RINGER_MODE_NORMAL -> {
                     R.drawable.baseline_notifications_active_24
@@ -47,21 +50,41 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        imageView.setOnClickListener {
+        ivDnd.setImageResource(
+            if (isDndActive(this)) {
+                R.drawable.outline_do_not_disturb_on_24
+            } else {
+                R.drawable.outline_do_not_disturb_off_24
+            }
+        )
+
+        ivDnd.setOnClickListener {
+            val result = toggleDoNotDisturb(this)
+
+            ivDnd.setImageResource(
+                if (result) {
+                    R.drawable.outline_do_not_disturb_on_24
+                } else {
+                    R.drawable.outline_do_not_disturb_off_24
+                }
+            )
+        }
+
+        ivSoundMode.setOnClickListener {
             audio.ringerMode = when (audio.ringerMode) {
                 AudioManager.RINGER_MODE_NORMAL -> {
-                    imageView.setImageResource(R.drawable.baseline_vibration_24)
+                    ivSoundMode.setImageResource(R.drawable.baseline_vibration_24)
                     AudioManager.RINGER_MODE_VIBRATE
                 }
 
                 AudioManager.RINGER_MODE_VIBRATE -> {
-                    imageView.setImageResource(R.drawable.baseline_notifications_off_24)
+                    ivSoundMode.setImageResource(R.drawable.baseline_notifications_off_24)
                     audio.ringerMode = AudioManager.RINGER_MODE_NORMAL
                     AudioManager.RINGER_MODE_SILENT
                 }
 
                 AudioManager.RINGER_MODE_SILENT -> {
-                    imageView.setImageResource(R.drawable.baseline_notifications_active_24)
+                    ivSoundMode.setImageResource(R.drawable.baseline_notifications_active_24)
                     AudioManager.RINGER_MODE_NORMAL
                 }
 
