@@ -8,8 +8,8 @@ import android.graphics.drawable.Icon
 import android.media.AudioManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getSoundStateDrawable
 import com.alftendev.simplesoundquicksettings.R
+import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getSoundStateDrawable
 import com.alftendev.simplesoundquicksettings.utils.Utils
 
 class SoundTile : TileService() {
