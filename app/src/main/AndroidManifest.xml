@@ -34,6 +34,19 @@
             android:name="com.alftendev.simplesoundquicksettings.activity.SettingsActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activity.ProxySoundSettingsActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/settings"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.alftendev.simplesoundquicksettings.services.SoundTile"
             android:exported="true"
