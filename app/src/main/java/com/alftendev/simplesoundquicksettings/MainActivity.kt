@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.alftendev.simplesoundquicksettings.activity.SettingsActivity
 import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getDndStateDrawable
 import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getSoundStateDrawable
 import com.alftendev.simplesoundquicksettings.utils.Utils.isDndActive

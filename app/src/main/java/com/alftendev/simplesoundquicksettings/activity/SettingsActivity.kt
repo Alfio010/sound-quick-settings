@@ -1,4 +1,4 @@
-package com.alftendev.simplesoundquicksettings
+package com.alftendev.simplesoundquicksettings.activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.alftendev.simplesoundquicksettings.R
 
 class SettingsActivity : AppCompatActivity() {
 

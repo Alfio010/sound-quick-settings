@@ -27,11 +27,11 @@
         </activity>
 
         <activity
-            android:name="com.alftendev.simplesoundquicksettings.WebViewActivity"
+            android:name="com.alftendev.simplesoundquicksettings.activity.WebViewActivity"
             android:exported="false" />
 
         <activity
-            android:name="com.alftendev.simplesoundquicksettings.SettingsActivity"
+            android:name="com.alftendev.simplesoundquicksettings.activity.SettingsActivity"
             android:exported="false" />
 
         <service

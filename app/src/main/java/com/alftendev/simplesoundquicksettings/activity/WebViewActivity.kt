@@ -1,4 +1,4 @@
-package com.alftendev.simplesoundquicksettings
+package com.alftendev.simplesoundquicksettings.activity
 
 import android.os.Bundle
 import android.webkit.WebChromeClient
