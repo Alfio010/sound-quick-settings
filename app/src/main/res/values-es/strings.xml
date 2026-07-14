@@ -1,0 +1,12 @@
+<resources>
+    <string name="sound">Sonido</string>
+    <string name="silent">Silencio</string>
+    <string name="vibration">Vibración</string>
+
+    <string name="completed">Ahora puedes cambiar el audio del dispositivo desde el panel de Ajustes Rápidos, solo tienes que añadir el atajo de esta aplicación.</string>
+
+    <string name="not_completed">La aplicación necesita permiso para cambiar el modo No Molestar para poder funcionar.</string>
+
+    <string name="toast_text">Concede el permiso a la aplicación para poder usarla</string>
+    <string name="settings">Ajustes</string>
+</resources>
