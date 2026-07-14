@@ -13,6 +13,7 @@ import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getSoundStateDraw
 import com.alftendev.simplesoundquicksettings.utils.Utils
 
 class SoundTile : TileService() {
+
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == AudioManager.RINGER_MODE_CHANGED_ACTION) {
@@ -22,6 +23,10 @@ class SoundTile : TileService() {
     }
 
     private fun updateSoundTile() {
+        if (qsTile == null) {
+            return
+        }
+
         val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
 
         if (qsTile == null) {
@@ -54,6 +59,11 @@ class SoundTile : TileService() {
     override fun onClick() {
         super.onClick()
 
+        if (!Utils.isDoNotDisturbPermissionGranted(this)) {
+            Utils.requestDoNotDisturbPermission(this)
+            return
+        }
+
         val audio = getSystemService(AUDIO_SERVICE) as AudioManager
 
         audio.ringerMode = when (audio.ringerMode) {
@@ -77,28 +87,18 @@ class SoundTile : TileService() {
     override fun onStartListening() {
         super.onStartListening()
 
+        val filter = IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
+        registerReceiver(broadcastReceiver, filter)
+
         updateSoundTile()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
-        if (!Utils.isDoNotDisturbPermissionGranted(this)) {
-            Utils.requestDoNotDisturbPermission(this)
-        }
-
-        this.registerReceiver(
-            broadcastReceiver,
-            IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION)
-        )
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStopListening() {
+        super.onStopListening()
 
         try {
-            this.unregisterReceiver(broadcastReceiver)
-        } catch (e: java.lang.Exception) {
+            unregisterReceiver(broadcastReceiver)
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
