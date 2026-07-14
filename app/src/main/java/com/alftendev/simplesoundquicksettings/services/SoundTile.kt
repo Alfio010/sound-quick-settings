@@ -13,8 +13,6 @@ import com.alftendev.simplesoundquicksettings.utils.ImageUtils.getSoundStateDraw
 import com.alftendev.simplesoundquicksettings.utils.Utils
 
 class SoundTile : TileService() {
-    private var latestAudioStateUpdate: Int? = null
-
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == AudioManager.RINGER_MODE_CHANGED_ACTION) {
@@ -25,11 +23,6 @@ class SoundTile : TileService() {
 
     private fun updateSoundTile() {
         val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-
-        if (latestAudioStateUpdate == audioManager.ringerMode) {
-            latestAudioStateUpdate = null
-            return
-        }
 
         if (qsTile == null) {
             return
@@ -77,8 +70,6 @@ class SoundTile : TileService() {
                 return
             }
         }
-
-        latestAudioStateUpdate = audio.ringerMode
 
         updateSoundTile()
     }
